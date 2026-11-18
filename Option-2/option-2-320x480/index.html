@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="ad.size" content="width=320,height=480" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1 user-scalable=no"
+    />
+
+    <script type="text/javascript">
+      var clickTag = "";
+    </script>
+
+    <style type="text/css">
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #222;
+      }
+
+      body::before,
+      body::after {
+        display: block;
+        content: "";
+        flex: 2;
+      }
+
+      body::after {
+        flex: 3;
+      }
+
+      img,
+      span,
+      svg {
+        border: none;
+        position: absolute;
+        display: block;
+      }
+
+      [class*="-scene"] {
+        opacity: 0;
+      }
+
+      [data-scene="0"] .-scene0,
+      [data-scene="1"] .-scene1,
+      [data-scene="2"] .-scene2,
+      [data-scene="3"] .-scene3,
+      [data-scene="4"] .-scene4,
+      [data-scene="5"] .-scene5,
+      [data-scene="6"] .-scene6,
+      [data-scene="7"] .-scene7,
+      [data-scene="8"] .-scene8,
+      [data-scene="9"] .-scene9 {
+        opacity: 1;
+        transform: none;
+      }
+
+      span > span,
+      span > img {
+        opacity: 1;
+      }
+
+      #canvas {
+        display: block;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        flex: none;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 160px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      #canvas:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9999999;
+        transform: translateZ(1px);
+      }
+
+      /* --- Custom ad specific styles go here --- */
+
+      #canvas {
+        background: #fff;
+      }
+
+      #canvas::after {
+        box-shadow: 0 0 0 1px #000 inset;
+      }
+
+      img {
+        transition: all 0.5s ease;
+      }
+
+      /* Wrapper spans carry the scene fades (the imgs inside stay at opacity 1) */
+      span {
+        transition: opacity 0.6s ease;
+      }
+
+      /* [data-scene="1"] .-scene1, */
+      [data-scene="2"] .-scene2,
+      [data-scene="3"] .-scene3 {
+        transition-delay: 0.5s;
+      }
+
+      /* Word animations: copy rises from the bottom of the copy to the top */
+      .copy {
+        transform: translateY(16px);
+      }
+
+      [data-scene="1"] .copy.-scene1,
+      [data-scene="2"] .copy.-scene1,
+      [data-scene="2"] .copy.-scene2,
+      [data-scene="3"] .copy.-scene2,
+      [data-scene="3"] .copy.-scene3,
+      [data-scene="4"] .copy.-scene3 {
+        transform: none;
+      }
+
+      /* Man: slides in from the right (scene 1), fades out in place (scene 3) */
+      .podder {
+        transform: translateX(100%);
+        transition: all 0.8s ease;
+      }
+
+      [data-scene="3"] .podder,
+      [data-scene="4"] .podder {
+        transform: none;
+      }
+
+      /* Mango line: grows from a small dot to a full line */
+      .swish {
+        transform: scaleX(0.03);
+        transform-origin: left center;
+        transition: all 0.8s ease;
+      }
+
+      /* Background photo for scenes 0-3 */
+      .bg-1 {
+        top: -1px;
+        left: 0px;
+        width: 136%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Outdoor photo: fades in on scene 3 */
+      .photo {
+        transform: translateY(8px);
+      }
+
+      /* Man cut-out position */
+      .photo-1 {
+        left: 78px;
+        width: 90%;
+        top: 27px;
+      }
+
+      /* Mango slice: always in place at the bottom (no scene classes, so no
+         global transform reset can undo the flip/rotation) */
+      .end-slice {
+        transform: rotate(0deg) scaleX(-1); /* use whatever angle you settled on */
+        transform-origin: 50% 0;
+        transition: transform 0.8s ease;
+      }
+
+      /* Footer text */
+      .uk {
+        color: #333333;
+        font-family: sans-serif;
+        font-size: 7px;
+        line-height: 9px;
+        position: absolute;
+        left: 26px;
+        bottom: 32px;
+        transition: color 0.5s ease;
+        letter-spacing: -0.4px;
+      }
+
+      .micetype {
+        color: #333333;
+        font-family: sans-serif;
+        font-size: 7px;
+        line-height: 8px;
+        position: absolute;
+        transition: opacity 0.5s 0.35s ease;
+      }
+
+      .micetype p {
+        margin: 0;
+      }
+
+      /* CTA: enlarges, moves up, centers, white outline forms (scene 4) */
+      [data-scene="4"] .button {
+        left: 50% !important;
+        transform: translateX(-50%) translateY(18px) !important;
+        outline: 1.5px solid #fff !important;
+        height: 45px !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a
+      id="canvas"
+      href="javascript:window.open(window.clickTag)"
+      data-frames="[0.2, 3.2, 3.5, 3, 5]"
+      data-duration="23000"
+      data-iterations="1"
+    >
+      <!-- Background photo: scenes 0-3 (outdoor photo fades in over it on scene 3) -->
+      <img
+        src="./assets/option-2_photo-1_bg.jpg"
+        class="bg-1 -scene0 -scene1 -scene2 -scene3"
+        alt=""
+      />
+
+      <!-- Outdoor photo (scenes 3-4) -->
+      <img
+        src="./assets/option-2_photo-2.jpg"
+        class="photo -scene3 -scene4"
+        style="width: 400px; top: 0; left: -44px"
+      />
+
+      <!-- Mango slice: always visible, no scene classes -->
+      <img
+        src="./assets/box-slice.svg"
+        class="end-slice"
+        style="width: 560px; top: 276px; left: -120px"
+      />
+
+      <!-- Man (scenes 1-2): slides in from the right, in front of the slice -->
+      <img
+        src="./assets/option-2_photo-fg.png"
+        class="photo-1 podder -scene1 -scene2"
+        alt=""
+      />
+
+      <!-- Copy -->
+      <img
+        src="./assets/copy1.svg"
+        class="copy -scene1"
+        style="height: 60px; top: 139px; left: 20px"
+      />
+      <img
+        src="./assets/copy2.svg"
+        class="copy -scene2"
+        style="height: 110px; top: 128px; left: 20px"
+      />
+      <img
+        src="./assets/copy3-option1.svg"
+        class="copy -scene3"
+        style="height: 37px; bottom: 64px; right: 12px"
+      />
+
+      <!-- Tagline (two-line version, from the 320x50): white on the dark photo (0-2), black on the outdoor photo (3-4) -->
+      <img
+        src="./assets/tagline-white.svg"
+        class="-scene0 -scene1 -scene2"
+        style="height: 48px; top: 28px; left: 20px"
+      />
+      <img
+        src="./assets/tagline.svg"
+        class="-scene3 -scene4"
+        style="height: 48px; top: 28px; left: 20px"
+      />
+
+      <!-- Mango line -->
+      <img
+        src="./assets/swish.svg"
+        class="swish -scene1 -scene2 -scene3 -scene4"
+        style="width: 140px; top: 78px; left: 20px"
+      />
+
+      <!-- Logo: knock-out version the whole time (always on the mango slice) -->
+      <img
+        src="./assets/logo-ko.svg"
+        class="logo-2"
+        style="width: 104px; bottom: 56px; left: 20px"
+      />
+
+      <!-- Safety copy (scene 4) -->
+      <div
+        class="micetype -scene4"
+        style="top: 360px; left: 142px; right: 22px; width: 52%"
+      >
+        <p>
+          The Omnipod 5 Automated Insulin Delivery System is a single hormone
+          insulin delivery system intended to deliver U-100 insulin
+          subcutaneously for the management of type 1 diabetes in persons aged 2
+          and older requiring insulin. Refer to the Omnipod 5 Automated Insulin
+          Delivery System User Guide and www.omnipod.com/sscp for complete
+          safety information including indications, contraindications, warnings,
+          cautions, and instructions.
+        </p>
+      </div>
+      <div
+        class="micetype -scene4"
+        style="right: 11px; bottom: 32px; text-align: left; width: 52%"
+      >
+        <p>©2026 Insulet Corporation. All rights reserved.</p>
+      </div>
+
+      <div class="uk">For UK adults with type 1 diabetes</div>
+
+      <!-- CTA -->
+      <img
+        src="./assets/button.svg"
+        class="button"
+        style="
+          border-radius: 100px;
+          outline: 1px solid #fff;
+          height: 30px;
+          bottom: 164px;
+          left: 12px;
+        "
+      />
+    </a>
+
+    <script>
+      !(function () {
+        var s, y, m, b, o, l, i, c;
+        function u(e) {
+          if (((s = document.getElementById(e)), window.top === window)) {
+            var t = document.head
+              .querySelector('meta[name="ad.size"]')
+              .content.split(",");
+            (s.style.width = parseInt(t[0].split("=")[1], 10) + "px"),
+              (s.style.height = parseInt(t[1].split("=")[1], 10) + "px");
+          }
+          (b = o = parseInt(s.getAttribute("data-iterations"))),
+            this.reScale(
+              JSON.parse(s.getAttribute("data-frames")),
+              parseInt(s.getAttribute("data-duration"))
+            ),
+            (i = m.length - 1),
+            this.animate();
+        }
+        (u.prototype.reScale = function (t, e) {
+          l = o > 0 ? e / o : e;
+          var a = t.reduce(function (t, e) {
+            return t + e;
+          }, 0);
+          m = t.map(function (t) {
+            return (t / a) * l;
+          });
+        }),
+          (u.prototype.goToFrame = function (e) {
+            this.pause(), (b = 0), (i = e), s.setAttribute("data-scene", e);
+          }),
+          (u.prototype.next = function () {
+            return ++i !== m.length || ((i = 0), b--)
+              ? (s.setAttribute("data-scene", i), i)
+              : ((b = o - 1), (i = -1));
+          }),
+          (u.prototype.animate = function () {
+            -1 !== this.next() &&
+              (y = window.setTimeout(this.animate.bind(this), m[i]));
+          }),
+          (u.prototype.pause = function () {
+            y && clearTimeout(y);
+          }),
+          (c = function () {
+            (window.banner = new u("canvas")),
+              document.body.setAttribute("class", "loaded");
+          }),
+          "loading" !== document.readyState
+            ? c()
+            : document.addEventListener("DOMContentLoaded", c);
+      })();
+    </script>
+  </body>
+</html>

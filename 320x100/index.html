@@ -1,230 +1,386 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="ad.size" content="width=320,height=100" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1 user-scalable=no"
+    />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="ad.size" content="width=320,height=100">
-    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
-
-    <script type="text/javascript">var clickTag = "";</script>
+    <script type="text/javascript">
+      var clickTag = "";
+    </script>
 
     <style type="text/css">
-        html,
-        body {
-            padding: 0;
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #222;
-        }
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #222;
+      }
 
-        body::before,
-        body::after {
-            display: block;
-            content: "";
-            flex: 2;
-        }
+      body::before,
+      body::after {
+        display: block;
+        content: "";
+        flex: 2;
+      }
 
-        body::after {
-            flex: 3;
-        }
+      body::after {
+        flex: 3;
+      }
 
-        img,
-        span,
-        svg {
-            border: none;
-            position: absolute;
-            display: block;
-        }
+      img,
+      span,
+      svg {
+        border: none;
+        position: absolute;
+        display: block;
+      }
 
-        [class*='-scene'] {
-            opacity: 0;
-        }
+      [class*="-scene"] {
+        opacity: 0;
+      }
 
-        [data-scene="0"] .-scene0,
-        [data-scene="1"] .-scene1,
-        [data-scene="2"] .-scene2,
-        [data-scene="3"] .-scene3,
-        [data-scene="4"] .-scene4,
-        [data-scene="5"] .-scene5,
-        [data-scene="6"] .-scene6,
-        [data-scene="7"] .-scene7,
-        [data-scene="8"] .-scene8,
-        [data-scene="9"] .-scene9 {
-            opacity: 1;
-            transform: none;
-        }
+      [data-scene="0"] .-scene0,
+      [data-scene="1"] .-scene1,
+      [data-scene="2"] .-scene2,
+      [data-scene="3"] .-scene3,
+      [data-scene="4"] .-scene4,
+      [data-scene="5"] .-scene5,
+      [data-scene="6"] .-scene6,
+      [data-scene="7"] .-scene7,
+      [data-scene="8"] .-scene8,
+      [data-scene="9"] .-scene9 {
+        opacity: 1;
+        transform: none;
+      }
 
-        span>span,
-        span>img {
-            opacity: 1
-        }
+      span > span,
+      span > img {
+        opacity: 1;
+      }
 
-        #canvas {
-            display: block;
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-            flex: none;
-            width: 100%;
-            height: 100%;
-            box-shadow: 0 0 160px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
+      #canvas {
+        display: block;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        flex: none;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 160px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
 
-        #canvas:after {
-            content: "";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 9999999;
-            transform: translateZ(1px)
-        }
+      #canvas:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9999999;
+        transform: translateZ(1px);
+      }
 
-        /* --- Custom ad specific styles go here --- */
+      /* --- Custom ad specific styles go here --- */
 
-        #canvas {
-            background: #fff;
-            box-shadow: none;
-        }
+      #canvas {
+        background: #fff;
+        box-shadow: none;
+      }
 
-        #canvas::after {
-            box-shadow: 0 0 0 1px #000 inset;
-            pointer-events: none;
-        }
+      #canvas::after {
+        box-shadow: 0 0 0 1px #000 inset;
+        pointer-events: none;
+      }
 
-        body::before,
-        body::after {
-            flex: 1;
-        }
+      body::before,
+      body::after {
+        flex: 1;
+      }
 
-        img {
-            transition: all .5s ease;
-        }
+      img {
+        transition: all 0.5s ease;
+      }
 
-        .orange-panel {
-            transition: width .5s ease;
-        }
+      .orange-panel {
+        transition: width 0.5s ease;
+      }
 
-        .copy {
-            opacity: 0;
-            transform: translateY(10px);
-        }
+      .copy {
+        opacity: 0;
+        transform: translateY(10px);
+      }
 
-        [data-scene="1"] .copy.-scene1,
-        [data-scene="2"] .copy.-scene2,
-        [data-scene="3"] .copy.-scene3 {
-            opacity: 1;
-            transform: none;
-            transition-delay: .5s;
-        }
+      [data-scene="1"] .copy.-scene1,
+      [data-scene="2"] .copy.-scene2,
+      [data-scene="3"] .copy.-scene3 {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.5s;
+      }
 
-        [data-scene="2"] .copy.-scene1,
-        [data-scene="3"] .copy.-scene2,
-        [data-scene="4"] .copy.-scene3 {
-            transform: none;
-        }
+      [data-scene="2"] .copy.-scene1,
+      [data-scene="3"] .copy.-scene2,
+      [data-scene="4"] .copy.-scene3 {
+        transform: none;
+      }
 
-        .legal {
-            opacity: 0;
-            transition: opacity .5s .5s ease;
-            pointer-events: none;
-        }
+      .legal {
+        opacity: 0;
+        transition: opacity 0.5s 0.5s ease;
+        pointer-events: none;
+      }
 
-        [data-scene="4"] .legal {
-            opacity: 1;
-            pointer-events: auto;
-        }
+      [data-scene="4"] .legal {
+        opacity: 1;
+        pointer-events: auto;
+      }
 
-        [data-scene="4"] .legal-content {
-            animation: legal-scroll 8.5s linear both;
-        }
+      [data-scene="4"] .legal-content {
+        animation: legal-scroll 8.5s linear both;
+      }
 
-        .legal::-webkit-scrollbar {
-            display: none;
-        }
+      .legal::-webkit-scrollbar {
+        display: none;
+      }
 
-        [data-scene="4"] .tagline {
-            opacity: 0;
-        }
+      [data-scene="4"] .tagline {
+        opacity: 0;
+      }
 
-        [data-scene="4"] .swish {
-            opacity: 0;
-        }
+      [data-scene="4"] .swish {
+        opacity: 0;
+      }
 
-        [data-scene="4"] .button {
-            width: 148px !important;
-            left: 167px !important;
-            top: 54px !important;
-            border: 1.5px solid #fff !important;
-        }
+      [data-scene="4"] .button {
+        width: 148px !important;
+        left: 167px !important;
+        top: 54px !important;
+        border: 1.5px solid #fff !important;
+      }
 
-        @keyframes legal-scroll {
-            0%, 12% {
-                transform: translateY(0);
-            }
-            88%, 100% {
-                transform: translateY(var(--legal-scroll, 0px));
-            }
+      @keyframes legal-scroll {
+        0%,
+        40% {
+          transform: translateY(0);
         }
+        88%,
+        100% {
+          transform: translateY(var(--legal-scroll, 0px));
+        }
+      }
     </style>
+  </head>
 
-</head>
+  <body>
+    <a
+      id="canvas"
+      href="javascript:window.open(window.clickTag)"
+      data-frames="[0.2, 3.5, 4, 3.5, 14]"
+      data-duration="30000"
+      data-iterations="1"
+      style="
+        color: #333;
+        font-family: Arial, sans-serif;
+        width: 320px;
+        height: 100px;
+      "
+    >
+      <div
+        class="orange-panel"
+        style="
+          position: absolute;
+          inset: 0;
+          background: #faa61a;
+          width: 199px;
+          clip-path: polygon(0 0, 78% 0, 100% 100%, 0 100%);
+        "
+      ></div>
+      <img
+        src="./assets/tagline.svg"
+        class="tagline"
+        style="width: 117px; top: 14px; left: 14px"
+      />
+      <img
+        src="./assets/swish.svg"
+        class="swish"
+        style="width: 132px; top: 30px; left: 10px"
+      />
 
-<body>
-    <a id="canvas" href="javascript:window.open(window.clickTag)" data-frames="[0.2, 3.5, 4, 3.5, 14]" data-duration="30000" data-iterations="1" style="color: #333; font-family: Arial, sans-serif; width: 320px; height: 100px;">
+      <img
+        src="./assets/copy1.svg"
+        class="copy -scene1"
+        style="left: 12px; height: 36px; top: 50px"
+      />
+      <img
+        src="./assets/copy2.svg"
+        class="copy -scene2"
+        style="left: 12px; height: 36px; top: 50px"
+      />
+      <img
+        src="./assets/copy3.svg"
+        class="copy -scene3"
+        style="left: 12px; height: 36px; top: 50px"
+      />
 
-        <div class="orange-panel" style="position: absolute; inset: 0; background: #faa61a; width: 199px; clip-path: polygon(0 0, 78% 0, 100% 100%, 0 100%);"></div>
-        <img src="./assets/tagline.svg" class="tagline" style="width: 117px; top: 14px; left: 14px;">
-        <img src="./assets/swish.svg" class="swish" style="width: 132px; top: 30px; left: 10px;">
+      <img
+        src="./assets/button.svg"
+        class="button"
+        style="border-radius: 100px; width: 118px; left: 193px; top: 58px"
+      />
+      <img
+        src="./assets/logo.svg"
+        class="logo"
+        style="width: 60px; right: 49px; top: 13px"
+      />
 
-        <img src="./assets/copy1.svg" class="copy -scene1" style="left: 12px; height: 36px; top: 50px;">
-        <img src="./assets/copy2.svg" class="copy -scene2" style="left: 12px; height: 36px; top: 50px;">
-        <img src="./assets/copy3.svg" class="copy -scene3" style="left: 12px; height: 36px; top: 50px;">
+      <p
+        class="audience"
+        style="
+          position: absolute;
+          margin: 0;
+          right: 10px;
+          bottom: 6px;
+          font-size: 7px;
+          line-height: 8px;
+        "
+      >
+        For UK adults with type 1 diabetes
+      </p>
 
-        <img src="./assets/button.svg" class="button" style="border-radius: 100px; width: 118px; left: 193px; top: 58px;">
-        <img src="./assets/logo.svg" class="logo" style="width: 60px; right: 49px; top: 13px;">
+      <div
+        class="legal"
+        style="
+          position: absolute;
+          left: 10px;
+          top: 11px;
+          width: 150px;
+          height: 81px;
+          font-size: 7px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          overscroll-behavior: contain;
+        "
+      >
+        <div class="legal-content">
+          <p style="margin: 0 0 5px">
+            The Omnipod 5 Automated Insulin Delivery System is a single hormone
+            insulin delivery system intended to deliver U-100 insulin
+            subcutaneously for the management of type 1 diabetes in persons aged
+            2 and older requiring insulin. Refer to the Omnipod 5 Automated
+            Insulin Delivery System User Guide and www.omnipod.com/sscp for
+            complete safety information including indications,
+            contraindications, warnings, cautions, and instructions.
+          </p>
 
-        <p class="audience" style="position: absolute; margin: 0; right: 10px; bottom: 6px; font-size: 7px; line-height: 8px;">For UK adults with type 1 diabetes</p>
-
-        <div class="legal" style="position: absolute; left: 10px; top: 11px; width: 150px; height: 81px; font-size: 7px; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior: contain;">
-            <div class="legal-content">
-                <p style="margin: 0 0 5px;">The Omnipod 5 Automated Insulin Delivery System is a single hormone insulin delivery system intended to deliver U-100 insulin subcutaneously for the management of type 1 diabetes in persons aged 2 and older requiring insulin. Refer to the Omnipod 5 Automated Insulin Delivery System User Guide and www.omnipod.com/sscp for complete safety information including indications, contraindications, warnings, cautions, and instructions.</p>
-
-                <p style="margin: 0;">©2026 Insulet Corporation. Omnipod, the Omnipod logos, and the Omnipod 5 logo are trademarks or registered trademarks of Insulet Corporation. All rights reserved.</p>
-            </div>
+          <p style="margin: 0">
+            ©2026 Insulet Corporation. All rights reserved.
+          </p>
         </div>
+      </div>
     </a>
 
-    <script>!function () { var s, y, m, b, o, l, i, c; function u(e) { if (s = document.getElementById(e), window.top === window) { var t = document.head.querySelector('meta[name="ad.size"]').content.split(","); s.style.width = parseInt(t[0].split("=")[1], 10) + "px", s.style.height = parseInt(t[1].split("=")[1], 10) + "px" } b = o = parseInt(s.getAttribute("data-iterations")), this.reScale(JSON.parse(s.getAttribute("data-frames")), parseInt(s.getAttribute("data-duration"))), i = m.length - 1, this.animate() } u.prototype.reScale = function (t, e) { l = o > 0 ? e / o : e; var a = t.reduce(function (t, e) { return t + e }, 0); m = t.map(function (t) { return t / a * l }) }, u.prototype.goToFrame = function (e) { this.pause(), b = 0, i = e, s.setAttribute("data-scene", e) }, u.prototype.next = function () { return ++i !== m.length || (i = 0, b--) ? (s.setAttribute("data-scene", i), i) : (b = o - 1, i = -1) }, u.prototype.animate = function () { -1 !== this.next() && (y = window.setTimeout(this.animate.bind(this), m[i])) }, u.prototype.pause = function () { y && clearTimeout(y) }, c = function () { window.banner = new u("canvas"), document.body.setAttribute("class", "loaded") }, "loading" !== document.readyState ? c() : document.addEventListener("DOMContentLoaded", c) }();</script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var viewport = document.querySelector(".legal");
-            var content = document.querySelector(".legal-content");
-            viewport.style.setProperty("--legal-scroll", -Math.max(0, content.scrollHeight - viewport.clientHeight) + "px");
-            viewport.addEventListener("wheel", function (event) {
-                if (document.getElementById("canvas").getAttribute("data-scene") !== "4") return;
-
-                // Hand over from the animation at its current position without a jump.
-                var transform = getComputedStyle(content).transform;
-                var offset = transform === "none" ? 0 : -new DOMMatrixReadOnly(transform).m42;
-                content.style.animation = "none";
-                content.style.transform = "none";
-                viewport.scrollTop += offset;
-
-                var unit = event.deltaMode === 1 ? parseFloat(getComputedStyle(viewport).lineHeight)
-                    : event.deltaMode === 2 ? viewport.clientHeight : 1;
-                viewport.scrollTop += event.deltaY * unit;
-                event.preventDefault();
-            }, { passive: false });
-        });
+      !(function () {
+        var s, y, m, b, o, l, i, c;
+        function u(e) {
+          if (((s = document.getElementById(e)), window.top === window)) {
+            var t = document.head
+              .querySelector('meta[name="ad.size"]')
+              .content.split(",");
+            (s.style.width = parseInt(t[0].split("=")[1], 10) + "px"),
+              (s.style.height = parseInt(t[1].split("=")[1], 10) + "px");
+          }
+          (b = o = parseInt(s.getAttribute("data-iterations"))),
+            this.reScale(
+              JSON.parse(s.getAttribute("data-frames")),
+              parseInt(s.getAttribute("data-duration"))
+            ),
+            (i = m.length - 1),
+            this.animate();
+        }
+        (u.prototype.reScale = function (t, e) {
+          l = o > 0 ? e / o : e;
+          var a = t.reduce(function (t, e) {
+            return t + e;
+          }, 0);
+          m = t.map(function (t) {
+            return (t / a) * l;
+          });
+        }),
+          (u.prototype.goToFrame = function (e) {
+            this.pause(), (b = 0), (i = e), s.setAttribute("data-scene", e);
+          }),
+          (u.prototype.next = function () {
+            return ++i !== m.length || ((i = 0), b--)
+              ? (s.setAttribute("data-scene", i), i)
+              : ((b = o - 1), (i = -1));
+          }),
+          (u.prototype.animate = function () {
+            -1 !== this.next() &&
+              (y = window.setTimeout(this.animate.bind(this), m[i]));
+          }),
+          (u.prototype.pause = function () {
+            y && clearTimeout(y);
+          }),
+          (c = function () {
+            (window.banner = new u("canvas")),
+              document.body.setAttribute("class", "loaded");
+          }),
+          "loading" !== document.readyState
+            ? c()
+            : document.addEventListener("DOMContentLoaded", c);
+      })();
     </script>
-</body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var viewport = document.querySelector(".legal");
+        var content = document.querySelector(".legal-content");
+        viewport.style.setProperty(
+          "--legal-scroll",
+          -Math.max(0, content.scrollHeight - viewport.clientHeight) + "px"
+        );
+        viewport.addEventListener(
+          "wheel",
+          function (event) {
+            if (
+              document.getElementById("canvas").getAttribute("data-scene") !==
+              "4"
+            )
+              return;
+
+            // Hand over from the animation at its current position without a jump.
+            var transform = getComputedStyle(content).transform;
+            var offset =
+              transform === "none" ? 0 : -new DOMMatrixReadOnly(transform).m42;
+            content.style.animation = "none";
+            content.style.transform = "none";
+            viewport.scrollTop += offset;
+
+            var unit =
+              event.deltaMode === 1
+                ? parseFloat(getComputedStyle(viewport).lineHeight)
+                : event.deltaMode === 2
+                ? viewport.clientHeight
+                : 1;
+            viewport.scrollTop += event.deltaY * unit;
+            event.preventDefault();
+          },
+          { passive: false }
+        );
+      });
+    </script>
+  </body>
 </html>
