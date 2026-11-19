@@ -109,12 +109,10 @@
         transition: opacity 0.6s ease;
       }
 
-      /* [data-scene="1"] .-scene1, */
       [data-scene="2"] .-scene2 {
         transition-delay: 0.5s;
       }
 
-      /* Word animations: copy rises from the bottom of the copy to the top */
       .copy {
         transform: translateY(16px);
       }
@@ -128,7 +126,6 @@
         transform: none;
       }
 
-      /* Podder: slides in from the right (scene 1), fades out in place (scene 3) */
       .podder {
         transform: translateX(100%);
         transition: all 0.8s ease;
@@ -138,21 +135,16 @@
       [data-scene="4"] .podder {
         transform: none;
       }
-      /* Mango line: grows from a small dot to a full line */
+
       .swish {
         transform: scaleX(0.03);
         transform-origin: left center;
         transition: all 0.8s ease;
       }
 
-      /* Outdoor photo: fades in on scene 3 */
       .photo {
         transform: translateY(8px);
       }
-
-      /* [data-scene="3"] .photo {
-        transition-delay: 0.85s;
-      } */
 
       .photo-1 {
         left: 140px;
@@ -160,21 +152,18 @@
         top: -39px;
       }
 
-      /* Mango background: slides up into the bottom third on scene 3 */
       .end-slice {
         transform: translateY(100px) rotate(0deg) scaleX(-1);
         transform-origin: 50% 0;
         transition: all 0.8s ease;
       }
 
-      /* Scene 3: faster sequence */
       [data-scene="3"] .end-slice {
         transition-delay: 0s;
         transition-duration: 0.5s;
       }
 
       [data-scene="3"] span {
-        /* old full-mango background fades out behind the incoming slice */
         transition-delay: 0s;
         transition-duration: 0.4s;
       }
@@ -199,7 +188,6 @@
         transform: translateY(-6px) rotate(-2deg) scaleX(-1) !important;
       }
 
-      /* Scene 4: slice moves up 18px (154 → 136) and tilts */
       [data-scene="4"] .end-slice {
         transform: translateY(-18px) rotate(-4deg) scaleX(-1) !important;
       }
@@ -207,7 +195,6 @@
         transition-delay: 0.5s;
       }
 
-      /* Footer text */
       .uk {
         color: #333333;
         font-family: sans-serif;
@@ -232,7 +219,6 @@
         margin: 0;
       }
 
-      /* CTA: enlarges, moves up, centers, white outline forms (scene 4) */
       [data-scene="4"] .button {
         left: 50% !important;
         transform: translateX(-50%) translateY(-14px) !important;
@@ -251,37 +237,32 @@
       data-duration="23000"
       data-iterations="1"
     >
-      <!-- Mango background: full for scenes 0-2 -->
       <span class="-scene0 -scene1 -scene2">
         <img
           src="./assets/box-slice.svg"
           class="start-slice"
-          style="width: 400px; top: -192px; left: -50px"
+          style="width: 400px; top: -187px; left: -50px"
         />
       </span>
 
-      <!-- Podder (scenes 1-2): slides in from the right -->
       <img
         src="./assets/option-1_photo-1.png"
         class="photo-1 podder -scene1 -scene2"
         alt=""
       />
 
-      <!-- Outdoor photo (scenes 3-4) -->
       <img
         src="./assets/option-1_photo-2.jpg"
         class="photo -scene3 -scene4"
         style="width: 330px; top: -69px; left: 0px"
       />
 
-      <!-- Mango background: bottom strip for scenes 3-4 -->
       <img
         src="./assets/box-slice.svg"
         class="end-slice -scene3 -scene4"
         style="width: 400px; top: 154px; left: -50px"
       />
 
-      <!-- Copy -->
       <img
         src="./assets/copy1.svg"
         class="copy -scene1"
@@ -298,7 +279,6 @@
         style="height: 32px; bottom: 21px; right: 17px"
       />
 
-      <!-- Tagline + mango line -->
       <img
         src="./assets/tagline.svg"
         style="height: 36px; top: 14px; left: 15px"
@@ -309,7 +289,6 @@
         style="width: 105px; top: 52px; left: 15px"
       />
 
-      <!-- Logo: full color on white (0-2), knock-out on mango (3-4) -->
       <img
         src="./assets/logo.svg"
         class="logo-1 -scene0 -scene1 -scene2"
@@ -321,7 +300,6 @@
         style="width: 71px; bottom: 26px; left: 15px"
       />
 
-      <!-- Safety copy (scene 4) -->
       <div
         class="micetype -scene4"
         style="top: 180px; left: 118px; right: 12px"
@@ -345,7 +323,6 @@
 
       <div class="uk">For UK adults with type 1 diabetes</div>
 
-      <!-- CTA -->
       <img
         src="./assets/button.svg"
         class="button"
